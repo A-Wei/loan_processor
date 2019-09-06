@@ -72,7 +72,7 @@ class New_Loan_Test(unittest.TestCase):
 
         self.assertEqual(resp.content.decode("utf-8"), msg)
 
-    def test_get_balance_deduct_payment(self):
+    def test_get_balance_deduct_past_payment(self):
         data = {
         	"payment": 10000,
 	        "payment_date": "2019-09-10"
@@ -87,6 +87,24 @@ class New_Loan_Test(unittest.TestCase):
             content_type="application/json",
         )
         msg = '{"Remaining Amount":30219.18}'
+
+        self.assertEqual(resp.content.decode("utf-8"), msg)
+
+    def test_get_balance_do_not_deduct_future_payment(self):
+        data = {
+        	"payment": 10000,
+	        "payment_date": "2020-09-10"
+        }
+        self.client.post(
+            "/api/v1/new_payment/",
+            data=data,
+            content_type="application/json",
+        )
+        resp = self.client.get(
+            "/api/v1/get_balance/?request_date=2019-10-11",
+            content_type="application/json",
+        )
+        msg = '{"Remaining Amount":40219.18}'
 
         self.assertEqual(resp.content.decode("utf-8"), msg)
 
