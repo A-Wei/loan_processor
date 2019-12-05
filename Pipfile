@@ -7,7 +7,7 @@ verify_ssl = true
 ipdb = "==0.12.2"
 
 [packages]
-django = "==2.2"
+django = "==2.2.8"
 psycopg2-binary = "==2.8.3"
 djangorestframework = "==3.10.2"
 requests = "==2.22.0"
